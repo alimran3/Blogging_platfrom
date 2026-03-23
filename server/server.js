@@ -5,10 +5,10 @@ import cors from 'cors';
 import helmet from 'helmet';
 import morgan from 'morgan';
 import compression from 'compression';
-import { createServer } from 'http';
-import { Server } from 'socket.io';
 import dotenv from 'dotenv';
 import path from 'path';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
 
 import authRoutes from './routes/auth.js';
 import blogRoutes from './routes/blogs.js';
@@ -22,14 +22,10 @@ import rateLimiter from './middleware/rateLimiter.js';
 
 dotenv.config();
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
 const app = express();
-const httpServer = createServer(app);
-const io = new Server(httpServer, {
-  cors: {
-    origin: process.env.CLIENT_URL || 'http://localhost:3000',
-    methods: ['GET', 'POST']
-  }
-});
 
 // Middleware
 app.use(helmet({
@@ -62,10 +58,7 @@ app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 app.use(rateLimiter);
 
 // Serve static files from uploads directory
-app.use('/uploads', express.static(path.join(process.cwd(), 'uploads')));
-
-// Make io accessible to routes
-app.set('io', io);
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Routes
 app.use('/api/auth', authRoutes);
@@ -84,34 +77,20 @@ app.get('/api/health', (req, res) => {
 // Error handling
 app.use(errorHandler);
 
-// Socket.io connection handling
-io.on('connection', (socket) => {
-  console.log('User connected:', socket.id);
+// For Vercel serverless - export handler
+export default async function handler(req, res) {
+  // Ensure database connection
+  if (mongoose.connection.readyState === 0) {
+    await connectDB();
+  }
+  
+  app(req, res);
+}
 
-  socket.on('join-blog', (blogId) => {
-    socket.join(`blog-${blogId}`);
+// For local development - start server
+if (process.env.NODE_ENV !== 'production') {
+  const PORT = process.env.PORT || 5000;
+  app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
   });
-
-  socket.on('leave-blog', (blogId) => {
-    socket.leave(`blog-${blogId}`);
-  });
-
-  socket.on('user-online', (userId) => {
-    socket.join(`user-${userId}`);
-    socket.broadcast.emit('user-status-change', { userId, online: true });
-  });
-
-  socket.on('disconnect', () => {
-    console.log('User disconnected:', socket.id);
-  });
-});
-
-// Database connection
-connectDB();
-
-const PORT = process.env.PORT || 5000;
-httpServer.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
-
-export { app, io };
+}
