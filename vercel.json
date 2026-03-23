@@ -1,0 +1,12 @@
+{
+  "projects": [
+    {
+      "path": "client",
+      "name": "blog-platform-frontend"
+    },
+    {
+      "path": "server",
+      "name": "blog-platform-backend"
+    }
+  ]
+}

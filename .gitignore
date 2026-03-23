@@ -42,3 +42,4 @@ server/uploads/*
 server/seeds/*.js
 !server/seeds/.gitkeep
 !server/seeds/seed.js
+.vercel 
