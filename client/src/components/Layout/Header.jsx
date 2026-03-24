@@ -236,8 +236,9 @@ const Header = () => {
                   <Link
                     to="/auth"
                     onClick={() => setIsMenuOpen(false)}
-                    className="block px-4 py-3 rounded-xl bg-navy-800 text-white
-                               font-semibold text-center"
+                    className="block px-4 py-3 rounded-xl bg-gold-400 hover:bg-gold-500
+                               text-navy-900 font-semibold text-center transition-colors
+                               shadow-lg shadow-gold-400/30"
                   >
                     Get Started
                   </Link>
