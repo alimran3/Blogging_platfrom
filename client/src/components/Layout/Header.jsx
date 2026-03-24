@@ -69,7 +69,7 @@ const Header = () => {
                   <HiOutlinePencil className="w-5 h-5" />
                   Write
                 </Link>
-                
+
                 {/* Profile Dropdown */}
                 <div className="relative">
                   <button
@@ -146,9 +146,18 @@ const Header = () => {
                 </div>
               </>
             ) : (
-              <Link to="/auth" className="btn-primary">
-                Get Started
-              </Link>
+              <div className="flex items-center gap-3">
+                <Link
+                  to="/create"
+                  className="btn-gold flex items-center gap-2"
+                >
+                  <HiOutlinePencil className="w-5 h-5" />
+                  <span className="hidden lg:inline">Start Writing</span>
+                </Link>
+                <Link to="/auth" className="btn-primary">
+                  Get Started
+                </Link>
+              </div>
             )}
           </nav>
 
@@ -233,15 +242,26 @@ const Header = () => {
                     </button>
                   </>
                 ) : (
-                  <Link
-                    to="/auth"
-                    onClick={() => setIsMenuOpen(false)}
-                    className="block px-4 py-3 rounded-xl bg-gold-400 hover:bg-gold-500
-                               text-navy-900 font-semibold text-center transition-colors
-                               shadow-lg shadow-gold-400/30"
-                  >
-                    Get Started
-                  </Link>
+                  <div className="space-y-3">
+                    <Link
+                      to="/create"
+                      onClick={() => setIsMenuOpen(false)}
+                      className="block px-4 py-3 rounded-xl bg-gold-400 hover:bg-gold-500
+                                 text-navy-900 font-semibold text-center transition-colors
+                                 shadow-lg shadow-gold-400/30"
+                    >
+                      <HiOutlinePencil className="w-5 h-5 inline mr-2" />
+                      Start Writing
+                    </Link>
+                    <Link
+                      to="/auth"
+                      onClick={() => setIsMenuOpen(false)}
+                      className="block px-4 py-3 rounded-xl bg-navy-800 hover:bg-navy-700
+                                 text-white font-semibold text-center transition-colors"
+                    >
+                      Get Started
+                    </Link>
+                  </div>
                 )}
               </div>
             </motion.div>
