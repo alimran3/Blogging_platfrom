@@ -6,6 +6,7 @@ import { useQuery } from '@tanstack/react-query';
 import { userService } from '../../services/userService';
 import { blogService } from '../../services/blogService';
 import { formatDistanceToNow } from 'date-fns';
+import { useAuth } from '../../context/AuthContext';
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 const BASE_URL = API_URL.replace('/api', '');
@@ -26,6 +27,8 @@ const getFullImageUrl = (url) => {
 };
 
 const Sidebar = () => {
+  const { isAuthenticated } = useAuth();
+
   const { data: activeUsersData, isLoading: loadingUsers } = useQuery({
     queryKey: ['active-users'],
     queryFn: () => userService.getActiveUsers(8),
@@ -190,18 +193,36 @@ const Sidebar = () => {
         )}
       </motion.div>
 
-      {/* Decorative Element */}
+      {/* Decorative Element - CTA Card */}
       <div className="card p-6 bg-gradient-to-br from-navy-800 to-navy-900 text-white">
         <h3 className="font-serif text-lg font-bold mb-2">Share Your Story</h3>
         <p className="text-navy-300 text-sm mb-4">
           Join our community of writers and share your unique perspective with the world.
         </p>
-        <Link
-          to="/create"
-          className="btn-gold w-full text-center text-sm"
-        >
-          Start Writing
-        </Link>
+        {isAuthenticated ? (
+          <Link
+            to="/create"
+            className="btn-gold w-full text-center text-sm"
+          >
+            Start Writing
+          </Link>
+        ) : (
+          <div className="space-y-3">
+            <Link
+              to="/auth"
+              className="block w-full btn-gold text-center text-sm"
+            >
+              Sign Up / Login
+            </Link>
+            <Link
+              to="/create"
+              className="block w-full px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20
+                         text-white font-medium text-sm transition-colors text-center"
+            >
+              Continue as Guest
+            </Link>
+          </div>
+        )}
       </div>
     </aside>
   );
