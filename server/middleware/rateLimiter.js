@@ -8,7 +8,8 @@ const rateLimiter = rateLimit({
     message: 'Too many requests, please try again later.'
   },
   standardHeaders: true,
-  legacyHeaders: false
+  legacyHeaders: false,
+  validate: { xForwardedForHeader: false }
 });
 
 const strictLimiter = rateLimit({
@@ -17,7 +18,8 @@ const strictLimiter = rateLimit({
   message: {
     success: false,
     message: 'Too many attempts, please try again later.'
-  }
+  },
+  validate: { xForwardedForHeader: false }
 });
 
 export default rateLimiter;
