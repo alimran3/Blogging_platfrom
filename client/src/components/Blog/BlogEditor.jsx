@@ -95,7 +95,7 @@ const BlogEditor = ({
     setEmbeds(prev => prev.filter((_, i) => i !== index));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e, status = 'published') => {
     e.preventDefault();
 
     if (!title.trim()) {
@@ -103,7 +103,7 @@ const BlogEditor = ({
       return;
     }
 
-    if (!content.trim()) {
+    if (!content.trim() && status !== 'draft') {
       toast.error('Please add some content');
       return;
     }
@@ -114,7 +114,7 @@ const BlogEditor = ({
     formData.append('excerpt', excerpt);
     formData.append('category', category);
     formData.append('tags', tags);
-    formData.append('status', 'published');
+    formData.append('status', status);
 
     if (coverImageFile) {
       formData.append('coverImage', coverImageFile);
@@ -125,6 +125,10 @@ const BlogEditor = ({
     }
 
     onSubmit(formData);
+  };
+
+  const handleSaveDraft = (e) => {
+    handleSubmit(e, 'draft');
   };
 
   return (
@@ -344,13 +348,15 @@ Use Markdown-style formatting:
         </div>
       </div>
 
-      {/* Submit Button */}
+      {/* Submit Buttons */}
       <div className="flex justify-end gap-4">
         <button
           type="button"
+          onClick={handleSaveDraft}
+          disabled={isSubmitting}
           className="btn-secondary"
         >
-          Save as Draft
+          {isSubmitting ? 'Saving...' : 'Save as Draft'}
         </button>
         <button
           type="submit"
@@ -359,7 +365,7 @@ Use Markdown-style formatting:
         >
           {isSubmitting ? (
             <span className="flex items-center gap-2">
-              <span className="w-5 h-5 border-2 border-navy-300 border-t-navy-600 
+              <span className="w-5 h-5 border-2 border-navy-300 border-t-navy-600
                                rounded-full animate-spin" />
               Publishing...
             </span>
