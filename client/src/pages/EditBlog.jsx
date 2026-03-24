@@ -3,29 +3,45 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import BlogEditor from '../components/Blog/BlogEditor';
 import { useBlog, useUpdateBlog } from '../hooks/useBlogs';
+import { useAuth } from '../context/AuthContext';
 import Loading from '../components/Common/Loading';
+import toast from 'react-hot-toast';
 
 const EditBlog = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { isAuthenticated, isLoading: authLoading } = useAuth();
   const { data, isLoading } = useBlog(id);
   const updateMutation = useUpdateBlog();
 
   const handleSubmit = async (formData) => {
     try {
       const result = await updateMutation.mutateAsync({ id, formData });
-      navigate(`/blog/${result.blog.slug}`);
+      if (result?.blog?.slug) {
+        navigate(`/blog/${result.blog.slug}`);
+      } else {
+        toast.success('Blog updated successfully!');
+        navigate(-1);
+      }
     } catch (error) {
-      // Error handled by mutation
+      const message = error.response?.data?.message || 'Failed to update blog. Please try again.';
+      toast.error(message);
+      console.error('Update blog error:', error);
     }
   };
 
-  if (isLoading) {
+  if (authLoading || isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <Loading size="lg" text="Loading blog..." />
       </div>
     );
+  }
+
+  if (!isAuthenticated) {
+    toast.error('Please login to edit this blog');
+    navigate('/auth');
+    return null;
   }
 
   if (!data?.blog) {
@@ -58,6 +74,11 @@ const EditBlog = () => {
           />
         </motion.div>
       </div>
+    </div>
+  );
+};
+
+export default EditBlog;
     </div>
   );
 };
