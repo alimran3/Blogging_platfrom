@@ -499,21 +499,27 @@ export const getUserBlogs = async (req, res) => {
     const limit = parseInt(req.query.limit) || 12;
     const skip = (page - 1) * limit;
 
+    // Check if viewing own blogs or someone else's
+    const isOwnProfile = req.user && req.user.id === req.params.userId;
+
+    // Build query based on who's viewing
+    const query = {
+      author: req.params.userId,
+      ...(isOwnProfile 
+        ? {} // Show all blogs (including drafts and private) when viewing own profile
+        : {
+            status: 'published',
+            visibility: { $in: ['public', 'unlisted'] }
+          })
+    };
+
     const [blogs, total] = await Promise.all([
-      Blog.find({
-        author: req.params.userId,
-        status: 'published',
-        visibility: 'public'
-      })
+      Blog.find(query)
         .populate('author', 'username avatar bio')
         .sort({ createdAt: -1 })
         .skip(skip)
         .limit(limit),
-      Blog.countDocuments({
-        author: req.params.userId,
-        status: 'published',
-        visibility: 'public'
-      })
+      Blog.countDocuments(query)
     ]);
 
     res.json({

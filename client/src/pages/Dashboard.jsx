@@ -259,7 +259,7 @@ const Dashboard = () => {
                       blog.coverImage.url !== '';
                     
                     return (
-                      <div key={blog._id} className="p-4 flex items-center gap-4">
+                      <div key={blog._id} className="p-4 flex items-center gap-4 border-b border-navy-50 last:border-0">
                         {hasCoverImage ? (
                           <img
                             src={blog.coverImage.url}
@@ -278,13 +278,38 @@ const Dashboard = () => {
                           </div>
                         )}
                         <div className="flex-1 min-w-0">
-                          <Link
-                            to={`/blog/${blog.slug}`}
-                            className="font-medium text-navy-800 hover:text-gold-600
-                                       transition-colors line-clamp-1"
-                          >
-                            {blog.title}
-                          </Link>
+                          <div className="flex items-center gap-2 mb-1">
+                            <Link
+                              to={`/blog/${blog.slug}`}
+                              className="font-medium text-navy-800 hover:text-gold-600
+                                         transition-colors line-clamp-1"
+                            >
+                              {blog.title}
+                            </Link>
+                            {/* Status Badge */}
+                            {blog.status === 'draft' && (
+                              <span className="px-2 py-0.5 bg-amber-100 text-amber-700 text-xs font-semibold rounded-full">
+                                Draft
+                              </span>
+                            )}
+                            {/* Visibility Badge */}
+                            {blog.visibility === 'private' && (
+                              <span className="px-2 py-0.5 bg-red-100 text-red-700 text-xs font-semibold rounded-full flex items-center gap-1 w-fit">
+                                <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                                </svg>
+                                Private
+                              </span>
+                            )}
+                            {blog.visibility === 'unlisted' && (
+                              <span className="px-2 py-0.5 bg-blue-100 text-blue-700 text-xs font-semibold rounded-full flex items-center gap-1 w-fit">
+                                <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
+                                </svg>
+                                Unlisted
+                              </span>
+                            )}
+                          </div>
                           <div className="flex items-center gap-4 text-sm text-navy-500 mt-1">
                             <span>{format(new Date(blog.createdAt), 'MMM d, yyyy')}</span>
                             <span className="flex items-center gap-1">
