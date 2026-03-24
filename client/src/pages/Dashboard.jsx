@@ -206,8 +206,8 @@ const Dashboard = () => {
               onClick={() => setActiveTab('blogs')}
               className={`px-6 py-3 rounded-xl font-medium transition-all
                          ${activeTab === 'blogs'
-                           ? 'bg-navy-800 text-white'
-                           : 'bg-white text-navy-600 hover:bg-navy-50'
+                           ? 'bg-gold-400 text-navy-900 shadow-lg shadow-gold-400/30'
+                           : 'bg-white text-navy-600 hover:bg-navy-50 border border-navy-200'
                          }`}
             >
               My Blogs
@@ -216,8 +216,8 @@ const Dashboard = () => {
               onClick={() => setActiveTab('settings')}
               className={`px-6 py-3 rounded-xl font-medium transition-all
                          ${activeTab === 'settings'
-                           ? 'bg-navy-800 text-white'
-                           : 'bg-white text-navy-600 hover:bg-navy-50'
+                           ? 'bg-gold-400 text-navy-900 shadow-lg shadow-gold-400/30'
+                           : 'bg-white text-navy-600 hover:bg-navy-50 border border-navy-200'
                          }`}
             >
               Settings
@@ -229,10 +229,10 @@ const Dashboard = () => {
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              className="card"
+              className="card p-6"
             >
-              <div className="p-6 border-b border-navy-100 flex justify-between items-center">
-                <h2 className="font-semibold text-navy-800">Your Blogs</h2>
+              <div className="border-b border-navy-100 pb-4 mb-4 flex justify-between items-center">
+                <h2 className="font-semibold text-navy-800 text-lg">Your Blogs</h2>
                 <Link to="/create" className="btn-gold text-sm">
                   Create New
                 </Link>
