@@ -1,5 +1,5 @@
 import React from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { HiOutlineArrowLeft } from 'react-icons/hi';
 import BlogReader from '../components/Blog/BlogReader';
@@ -8,6 +8,7 @@ import Loading from '../components/Common/Loading';
 
 const BlogPage = () => {
   const { slug } = useParams();
+  const navigate = useNavigate();
   const { data, isLoading, error } = useBlog(slug);
 
   if (isLoading) {
@@ -56,7 +57,7 @@ const BlogPage = () => {
         </motion.div>
 
         {/* Blog Reader */}
-        <BlogReader blog={data.blog} />
+        <BlogReader blog={data.blog} navigate={navigate} />
       </div>
     </div>
   );

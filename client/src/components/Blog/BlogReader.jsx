@@ -27,7 +27,7 @@ const ModernAvatarIcon = ({ className = "w-7 h-7" }) => (
   </svg>
 );
 
-const BlogReader = ({ blog }) => {
+const BlogReader = ({ blog, navigate }) => {
   const { isAuthenticated } = useAuth();
   const likeMutation = useLikeBlog();
   const [isLiked, setIsLiked] = React.useState(blog.isLiked);
@@ -46,19 +46,22 @@ const BlogReader = ({ blog }) => {
 
   const coverImageUrl = getFullImageUrl(blog.coverImage?.url);
   const authorAvatarUrl = getFullImageUrl(blog.author?.avatar?.url);
-  const hasDefaultAvatar = !blog.author?.avatar?.url || 
-    blog.author.avatar.url.includes('default') || 
+  const hasDefaultAvatar = !blog.author?.avatar?.url ||
+    blog.author.avatar.url.includes('default') ||
     blog.author.avatar.url === 'https://res.cloudinary.com/demo/image/upload/v1/defaults/avatar.png';
 
   const handleLike = async () => {
     if (!isAuthenticated) {
       toast.error('Please login to like posts');
+      setTimeout(() => {
+        navigate('/auth');
+      }, 1500);
       return;
     }
-    
+
     setIsLiked(!isLiked);
     setLikesCount(prev => isLiked ? prev - 1 : prev + 1);
-    
+
     try {
       await likeMutation.mutateAsync(blog._id);
     } catch (error) {
@@ -304,7 +307,7 @@ const BlogReader = ({ blog }) => {
       </div>
 
       {/* Comments Section */}
-      <CommentSection blogId={blog._id} />
+      <CommentSection blogId={blog._id} navigate={navigate} />
     </motion.article>
   );
 };

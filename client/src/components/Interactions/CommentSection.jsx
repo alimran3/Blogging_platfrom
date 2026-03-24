@@ -26,7 +26,7 @@ const getFullImageUrl = (url) => {
   return `${BASE_URL}${url}`;
 };
 
-const CommentSection = ({ blogId }) => {
+const CommentSection = ({ blogId, navigate }) => {
   const { isAuthenticated, user } = useAuth();
   const queryClient = useQueryClient();
   const [replyingTo, setReplyingTo] = useState(null);
@@ -53,10 +53,25 @@ const CommentSection = ({ blogId }) => {
     mutationFn: (commentId) => commentService.likeComment(commentId),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['comments', blogId] });
+    },
+    onError: () => {
+      if (!isAuthenticated) {
+        toast.error('Please login to like comments');
+        setTimeout(() => {
+          navigate('/auth');
+        }, 1500);
+      }
     }
   });
 
   const handleSubmit = (content, parentCommentId = null) => {
+    if (!isAuthenticated) {
+      toast.error('Please login to comment');
+      setTimeout(() => {
+        navigate('/auth');
+      }, 1500);
+      return;
+    }
     createMutation.mutate({ content, parentCommentId });
     setReplyingTo(null);
   };
@@ -78,10 +93,17 @@ const CommentSection = ({ blogId }) => {
           placeholder="Share your thoughts..."
         />
       ) : (
-        <div className="text-center py-6 bg-navy-50 rounded-2xl mb-6">
-          <p className="text-navy-600">
-            Please <a href="/auth" className="text-gold-600 font-semibold hover:underline">login</a> to comment
+        <div className="text-center py-8 bg-gradient-to-br from-navy-50 to-gold-50 rounded-2xl mb-6 border-2 border-gold-200">
+          <HiOutlineChat className="w-10 h-10 text-gold-500 mx-auto mb-3" />
+          <p className="text-navy-700 font-medium mb-3">
+            Join the conversation
           </p>
+          <button
+            onClick={() => navigate('/auth')}
+            className="btn-gold"
+          >
+            Login to Comment
+          </button>
         </div>
       )}
 
