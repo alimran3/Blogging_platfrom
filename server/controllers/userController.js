@@ -220,7 +220,8 @@ export const updateAvatar = async (req, res) => {
       publicId: result.public_id
     };
 
-    await user.save();
+    // Skip validation for avatar update (securityHobby is not needed here)
+    await user.save({ validateBeforeSave: false });
 
     res.json({
       success: true,
@@ -267,7 +268,8 @@ export const updateCoverImage = async (req, res) => {
       publicId: result.public_id
     };
 
-    await user.save();
+    // Skip validation for cover image update
+    await user.save({ validateBeforeSave: false });
 
     res.json({
       success: true,
