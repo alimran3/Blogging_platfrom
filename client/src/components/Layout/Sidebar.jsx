@@ -194,15 +194,17 @@ const Sidebar = () => {
       </motion.div>
 
       {/* Decorative Element - CTA Card */}
-      <div className="card p-6 bg-gradient-to-br from-amber-100 to-yellow-100 border-2 border-gold-300">
+      <div className="card p-6 bg-gradient-to-br from-gold-400 via-amber-400 to-yellow-300 border-2 border-gold-500 shadow-lg shadow-gold-400/40">
         <h3 className="font-serif text-lg font-bold text-navy-900 mb-2">Share Your Story</h3>
-        <p className="text-navy-700 text-sm mb-4">
+        <p className="text-navy-800 text-sm mb-4">
           Join our community of writers and share your unique perspective with the world.
         </p>
         {isAuthenticated ? (
           <Link
             to="/create"
-            className="btn-gold w-full text-center text-sm"
+            className="block w-full px-4 py-2.5 rounded-xl bg-navy-900 hover:bg-navy-800
+                       text-white font-semibold text-sm transition-all shadow-md
+                       hover:shadow-lg hover:scale-[1.02] text-center"
           >
             Start Writing
           </Link>
@@ -210,14 +212,17 @@ const Sidebar = () => {
           <div className="space-y-3">
             <Link
               to="/auth"
-              className="block w-full btn-gold text-center text-sm"
+              className="block w-full px-4 py-2.5 rounded-xl bg-navy-900 hover:bg-navy-800
+                         text-white font-semibold text-sm transition-all shadow-md
+                         hover:shadow-lg hover:scale-[1.02] text-center"
             >
               Sign Up / Login
             </Link>
             <Link
               to="/create"
-              className="block w-full px-4 py-2 rounded-xl bg-navy-800 hover:bg-navy-700
-                         text-white font-medium text-sm transition-colors text-center"
+              className="block w-full px-4 py-2.5 rounded-xl bg-white/90 hover:bg-white
+                         text-navy-900 font-semibold text-sm transition-all shadow-sm
+                         hover:shadow-md hover:scale-[1.02] text-center border-2 border-navy-200"
             >
               Continue as Guest
             </Link>
