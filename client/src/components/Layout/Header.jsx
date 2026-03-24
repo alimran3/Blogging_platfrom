@@ -183,16 +183,16 @@ const Header = () => {
               exit={{ opacity: 0, height: 0 }}
               className="md:hidden border-t border-navy-100"
             >
-              <div className="py-4 space-y-2">
+              <div className="py-4 space-y-3">
                 <Link
                   to="/"
                   onClick={() => setIsMenuOpen(false)}
-                  className="block px-4 py-3 rounded-xl hover:bg-navy-50 text-navy-800
-                             font-medium transition-colors"
+                  className="block px-4 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-700
+                             text-white font-medium text-center transition-colors"
                 >
                   Explore
                 </Link>
-                
+
                 {isAuthenticated ? (
                   <>
                     <Link
@@ -206,16 +206,16 @@ const Header = () => {
                     <Link
                       to={`/profile/${user?._id}`}
                       onClick={() => setIsMenuOpen(false)}
-                      className="block px-4 py-3 rounded-xl hover:bg-navy-50
-                                 text-navy-800 font-medium transition-colors"
+                      className="block px-4 py-3 rounded-xl bg-indigo-500 hover:bg-indigo-600
+                                 text-white font-medium text-center transition-colors"
                     >
                       My Profile
                     </Link>
                     <Link
                       to="/dashboard"
                       onClick={() => setIsMenuOpen(false)}
-                      className="block px-4 py-3 rounded-xl hover:bg-navy-50
-                                 text-navy-800 font-medium transition-colors"
+                      className="block px-4 py-3 rounded-xl bg-indigo-500 hover:bg-indigo-600
+                                 text-white font-medium text-center transition-colors"
                     >
                       Profile Settings
                     </Link>
@@ -223,8 +223,8 @@ const Header = () => {
                       <Link
                         to="/admin"
                         onClick={() => setIsMenuOpen(false)}
-                        className="block px-4 py-3 rounded-xl hover:bg-gold-50
-                                   text-gold-700 font-semibold transition-colors"
+                        className="block px-4 py-3 rounded-xl bg-gold-500
+                                   text-navy-900 font-semibold text-center transition-colors"
                       >
                         <HiOutlineShieldCheck className="w-5 h-5 inline mr-2" />
                         Admin Panel
@@ -235,8 +235,8 @@ const Header = () => {
                         setIsMenuOpen(false);
                         logout();
                       }}
-                      className="w-full text-left px-4 py-3 rounded-xl hover:bg-red-50
-                                 text-red-600 font-medium transition-colors"
+                      className="w-full text-left px-4 py-3 rounded-xl bg-red-500 hover:bg-red-600
+                                 text-white font-medium text-center transition-colors"
                     >
                       Logout
                     </button>
@@ -256,7 +256,7 @@ const Header = () => {
                     <Link
                       to="/auth"
                       onClick={() => setIsMenuOpen(false)}
-                      className="block px-4 py-3 rounded-xl bg-navy-800 hover:bg-navy-700
+                      className="block px-4 py-3 rounded-xl bg-indigo-500 hover:bg-indigo-600
                                  text-white font-semibold text-center transition-colors"
                     >
                       Get Started
