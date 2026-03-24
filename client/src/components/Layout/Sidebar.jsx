@@ -209,24 +209,14 @@ const Sidebar = () => {
             Start Writing
           </Link>
         ) : (
-          <div className="space-y-3">
-            <Link
-              to="/auth"
-              className="block w-full px-4 py-2.5 rounded-xl bg-white hover:bg-white/90
-                         text-indigo-600 font-semibold text-sm transition-all shadow-md
-                         hover:shadow-lg hover:scale-[1.02] text-center"
-            >
-              Sign Up / Login
-            </Link>
-            <Link
-              to="/create"
-              className="block w-full px-4 py-2.5 rounded-xl bg-white/10 hover:bg-white/20
-                         text-white font-semibold text-sm transition-all backdrop-blur-sm
-                         hover:scale-[1.02] text-center border border-white/30"
-            >
-              Continue as Guest
-            </Link>
-          </div>
+          <Link
+            to="/auth"
+            className="block w-full px-4 py-2.5 rounded-xl bg-white hover:bg-white/90
+                       text-indigo-600 font-semibold text-sm transition-all shadow-md
+                       hover:shadow-lg hover:scale-[1.02] text-center"
+          >
+            Sign Up / Login
+          </Link>
         )}
       </div>
     </aside>
